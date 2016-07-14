@@ -32,7 +32,7 @@ The focus of this analysis was on the [Physician] (https://www.cms.gov/Research-
 
 CMS provides data in two formats: as a single tab delimited file (to be imported into SAS or other statistical software packages) and as Microsoft Excel files. Given that I am not a SAS User (although it is in my plans to learn in the near future), I decided to utilized the Excel files in order to import them into a local Oracle database instance.
 
-As part of the importing process, the Excel files were first converted to the CSV format and imported into Oracle using SQL Developer's data import interface.
+As part of the importing process, the Excel files were first converted to the CSV format and imported into Oracle using SQL Developer's data import interface. From experience, SQL developer is able to process CSV files much better than Excel files, as importing large Excel files with SQL Developer is often prone to errors.
 
 A screenshot of the uploaded data in SQL Developer is shown below:
 
@@ -44,3 +44,14 @@ A quick check to ensure that we uploaded all the data:
 SELECT COUNT(*) 
 FROM CMSMEDICAREDATA
 ```
+![CMSMEDICAREDATACOUNT] (https://cloud.githubusercontent.com/assets/7533177/16856161/edb670b6-49d5-11e6-9ae2-aaecba08c587.JPG)
+
+Good! The upload process went well and we now have access to almost 9.3 million rows of Medicare Charges data. 
+
+## Dataset explanation
+
+The dataset contains data such as:
+* Provider information such as National Provider Identification (NPI),name, street, address, ZIP code, provider's medical specialty
+* Procedure information such as HCPCS codes (also known as CPT codes), procedure description, number of beneficiaries per provider that benefited from each specific procedure, and procedure financial information, such as average amounts allowed by Medicare, average charges submitted by the provider, among other fields.
+
+A complete description of the data fields contained in the data set is available [here] (https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Downloads/Medicare-Physician-and-Other-Supplier-PUF-Methodology.pdf).
