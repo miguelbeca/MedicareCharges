@@ -24,3 +24,15 @@ In light of this, I sought to analyze existing public data related to healthcare
 
 # Data Gathering
 
+The [Centers for Medicare & Medicaid Services] (https://www.cms.gov/) (CMS) is the federal agency in charge of administering Medicare, Medicaid, Children’s Health Insurance Program (CHIP), and the Health Insurance Marketplace. The agency is a part of the Department of Health and Human Services (HHS).
+
+As part of its mandate to "make our healthcare system more transparent, affordable, and accountable" , CMS has begun making several data sets public based on the data that it collects from physicians and healthcare facilities from all over the United States. Amongst the many data sets which are made available by CMS, we can find data related to [Medicare payments] (https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/index.html) in several categories, such as data on Physician charges (i.e. doctor's appointments, medical procedures, etc.), Inpatient charges (i.e.: hospital admissions), Outpatient charges (i.e.: emergency services, outpatient surgery, etc.) and Part D charges (Medicare's drug prescription program).
+
+The focus of this analysis was on the [Physician] (https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier.html) dataset, because it not only focused on the most common medical costs (such as doctor's visits, medical exams, etc.) but it also provided a quite large dataset (around 1.7GB and over 9 million records). The analysis was focused on the [2013] (https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html) dataset.
+
+CMS provides data in two formats: as a single tab delimited file (to be imported into SAS or other statistical software packages) and as Microsoft Excel files. Given that I am not a SAS User (although it is in my plans to learn in the near future), I decided to utilized the Excel files in order to import them into a local Oracle database instance.
+
+As part of the importing process, the Excel files were first converted to the CSV format and imported into Oracle using SQL Developer's data import interface.
+
+
+
