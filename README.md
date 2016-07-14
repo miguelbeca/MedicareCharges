@@ -38,3 +38,9 @@ A screenshot of the uploaded data in SQL Developer is shown below:
 
 ![CMSDATATABLE] (https://cloud.githubusercontent.com/assets/7533177/16855634/68dc720c-49d3-11e6-870f-301bbdff7a8c.JPG)
 
+A quick check to ensure that we uploaded all the data:
+
+```SQL
+SELECT COUNT(*) 
+FROM CMSMEDICAREDATA
+```
