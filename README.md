@@ -34,5 +34,7 @@ CMS provides data in two formats: as a single tab delimited file (to be imported
 
 As part of the importing process, the Excel files were first converted to the CSV format and imported into Oracle using SQL Developer's data import interface.
 
+A screenshot of the uploaded data in SQL Developer is shown below:
 
+![CMSDATATABLE] (https://cloud.githubusercontent.com/assets/7533177/16855634/68dc720c-49d3-11e6-870f-301bbdff7a8c.JPG)
 
