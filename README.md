@@ -174,3 +174,48 @@ ORDER BY NPPES_PROVIDER_STATE ASC, FIPS_CO ASC;
 A sample of the data looks as follows:
 
 ![image_8 - median flu charges](https://cloud.githubusercontent.com/assets/7533177/16889793/55851bfe-4aa6-11e6-99ec-e2628a43c710.JPG)
+
+Let's take a further look, and see if we have any outlier values:
+```SQL
+SELECT DISTINCT(MEDIAN_CHARGES),COUNT(*)
+FROM FLUCHARGES
+GROUP BY MEDIAN_CHARGES
+ORDER BY COUNT(*)DESC
+```
+![image_9 - frequency of flu charges](https://cloud.githubusercontent.com/assets/7533177/16890219/d86d6e7e-4aa9-11e6-9abc-41f295f8b4a1.JPG)
+
+By taking a quick look at the data, we can see that the average charges range somewhere between 10 and 40 dollars. Just to confirm, we run another simple query:
+
+```SQL
+SELECT MAX(MEDIAN_CHARGES), MIN(MEDIAN_CHARGES), MEDIAN(MEDIAN_CHARGES)  FROM FLUCHARGES
+```
+
+And we get the following:
+
+![image_10 - max_min_median_flu_charges](https://cloud.githubusercontent.com/assets/7533177/16890273/4ad3ec0e-4aaa-11e6-8bc8-7c2ab9d287d1.JPG)
+
+Running our query again to get the frequency of Median charges and now ordering the values from low to high we get the following:
+
+![image_11 - low_2_high_flu_charges](https://cloud.githubusercontent.com/assets/7533177/16890349/c1afee86-4aaa-11e6-8e72-05a552141988.JPG)
+
+And from high to low:
+
+![image_12 - high_2_low_flu_charges](https://cloud.githubusercontent.com/assets/7533177/16890351/c88ded98-4aaa-11e6-9b92-82c7bdbd8ed6.JPG)
+
+Given that the$0.01 and $489.71 values occur only once in our dataset, it is probably best to remove them to not skew the remaining values. 
+
+```SQL
+DELETE FROM FLUCHARGES 
+WHERE MEDIAN_CHARGES = 489.71
+
+DELETE FROM FLUCHARGES 
+WHERE MEDIAN_CHARGES = 0.01
+```
+(MOVE)
+Additionally, some of the very high charge costs seem a bit away from the remaining values. We therefore decided also to remove the values above $80.075
+
+Now, our data is ready to be visualized.
+
+##Data Visualization
+
+
