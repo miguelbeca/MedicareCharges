@@ -154,4 +154,23 @@ GROUP BY HCPCS_CODE, HCPCS_DESCRIPTION
 ORDER BY COUNT(*) DESC
 ```
 
+The list of the top 25 most common procedures was as follows:
 
+![image_7 - top 25 procedures](https://cloud.githubusercontent.com/assets/7533177/16889290/883f3ad8-4aa2-11e6-9e7b-15cdaddb800a.JPG)
+
+Given that office visits may be a bit subjective, as some doctors may charge more than others according to their specialty, I decided to focus on the Flu vaccine procedure. It is a simple procedure that most of us are familiar with and, thus, we can have a better sense of what should be a "reasonable" charge for this service.
+
+In order to have the data ready for visualization, I decided to create a new table with the Median of the average charges for the Flu Vaccine procedure on a county basis:
+
+```SQL
+CREATE TABLE FLUCHARGES AS
+SELECT NPPES_PROVIDER_STATE, FIPS_CO, MEDIAN(AVG_SUBMIT_CHARGES) AS MEDIAN_CHARGES
+FROM CMSMEDICAREFINAL
+WHERE HCPCS_CODE = 'G0008'
+GROUP BY NPPES_PROVIDER_STATE, FIPS_CO
+ORDER BY NPPES_PROVIDER_STATE ASC, FIPS_CO ASC;
+```
+
+A sample of the data looks as follows:
+
+![image_8 - median flu charges](https://cloud.githubusercontent.com/assets/7533177/16889793/55851bfe-4aa6-11e6-99ec-e2628a43c710.JPG)
