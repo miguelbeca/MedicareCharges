@@ -101,6 +101,12 @@ WHERE NPIGEODATA.NPI = CMSMEDICAREDATA.NPI
 AND CMSMEDICAREDATA.NPPES_PROVIDER_COUNTRY = 'US';
 ```
 
+Now, have the FIPS county code and State codes available in the same data table:
+
+![image_5 - merged_data with fips](https://cloud.githubusercontent.com/assets/7533177/16888088/174e8e20-4a9b-11e6-9dec-ababcd3f6090.JPG)
+
+
+
 
 
 
