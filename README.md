@@ -1,8 +1,8 @@
 # Introduction
 
-The purpose of this repository is to both store and demonstrate the work performed as a project submission for "The Data Incubator" Fellowship program.
+The purpose of this repository is to both store and demonstrate the work performed as a project submission for "The Data Incubator" Fellowship program. The goal is to visualize Medicare charges data on United States map at county level.
 
-This page contains background information on the project, as well as, code samples and visualizations
+This page contains background information on the project, as well as, code samples and final visualizations.
 
 
 # Background
@@ -55,3 +55,52 @@ The dataset contains data such as:
 * Procedure information such as HCPCS codes (also known as CPT codes), procedure description, number of beneficiaries per provider that benefited from each specific procedure, and procedure financial information, such as average amounts allowed by Medicare, average charges submitted by the provider, among other fields.
 
 A complete description of the data fields contained in the data set is available [here] (https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Downloads/Medicare-Physician-and-Other-Supplier-PUF-Methodology.pdf).
+
+## Mapping data to geographic locations
+
+Once the dataset with charges information was gathered, the next step consisted of finding the means to correctly map it for visualization.
+
+The CMS dataset contains address information, including ZIP+4 codes. However, the standard practice for map visualizations is to use Federal Information Processing Standards (FIPS) codes. These codes identify geographical areas at various level, such as [State, County and even County Subdivision] (https://www.census.gov/geo/reference/codes/cousub.html) levels. A reference map from the United States Census website is available [here] (https://www2.census.gov/geo/maps/general_ref/us_base/stco2010/USstcou2010_wallmap.pdf).
+
+The first attempts were to map the ZIP code data from the CMS dataset to their respective FIPS codes by using some different means, such as this [County Cross Reference File] (http://wonder.cdc.gov/wonder/sci_data/codes/fips/type_txt/cntyxref.asp) from the Centers for Disease Control (CDC). However, the issue with this sort of mapping is that in some areas, 5-dgiti ZIP codes cross county lines, meaning that a ZIP code could have 2 different FIPS codes. Unable to find any freely available datasets which could map 9-digit ZIP codes to FIPS codes, it was time to purse another route.
+
+Upon further research, a solution was found on the [North American Association of Central Cancer Registries] (http://www.naaccr.org/research/gisresources.aspx) website which has available for public use Geocoded National Provider Identifier data, which contains address and FIPS code data for medical providers.
+
+The dataset for 2015 was downloaded and imported into our database. An example of the NPI and the respective FIPS data is shown below:
+
+![NPI_GEO] (https://cloud.githubusercontent.com/assets/7533177/16885049/f957ed82-4a89-11e6-837f-a059ea137971.JPG)
+
+Now it was time to finally merge the two datasets together. However, before doing so, it would be appropriate to check the number of records in the NPI geocoding dataset:
+
+```SQL
+SELECT COUNT(*) 
+FROM NPIGEODATA 
+```
+
+The above query returned the following result:
+
+![image_4 - npi_geodata_count](https://cloud.githubusercontent.com/assets/7533177/16886378/25c5d724-4a91-11e6-8f5c-652ea9152af9.JPG)
+
+Now we have the task of merging these two datasets together. My first logic approach was to update the CMS dataset by adding a new column to store the FIPS code from the NPI dataset. Although, I knew it would probably take sometime to update millions of records, I did not quite expect that it would take literally 3 days (left the query running over the weekend) to update a column.
+
+Given that this is a common issue in a variety of applications, I sought to find a different approach which would enable me to update the data a lot faster. My search led me to this solution: [How to update millions of records in a table] (https://asktom.oracle.com/pls/asktom/f?p=100:11:0::NO::P11_QUESTION_ID:6407993912330).
+
+The code to create a new table which included the FIPS code from the NPI dataset was:
+
+```SQL
+CREATE TABLE CMSMEDICARENEW AS 
+SELECT CMSMEDICAREDATA.NPI, CMSMEDICAREDATA.NPPES_PROVIDER_LAST_ORG_NAME, CMSMEDICAREDATA.NPPES_PROVIDER_FIRST_NAME, CMSMEDICAREDATA.NPPES_PROVIDER_MI, 
+CMSMEDICAREDATA.NPPES_CREDENTIALS, CMSMEDICAREDATA.NPPES_PROVIDER_GENDER, CMSMEDICAREDATA.NPPES_ENTITY_CODE, CMSMEDICAREDATA.NPPES_PROVIDER_STREET1, 
+CMSMEDICAREDATA.NPPES_PROVIDER_STREET2, CMSMEDICAREDATA.NPPES_PROVIDER_CITY, CMSMEDICAREDATA.NPPES_PROVIDER_ZIP, CMSMEDICAREDATA.NPPES_PROVIDER_STATE, 
+CMSMEDICAREDATA.NPPES_PROVIDER_COUNTRY, CMSMEDICAREDATA.PROVIDER_TYPE, CMSMEDICAREDATA.MEDICARE_PARTICIP_INDICATOR, CMSMEDICAREDATA.PLACE_OF_SERVICE, 
+CMSMEDICAREDATA.HCPCS_CODE, CMSMEDICAREDATA.HCPCS_DESCRIPTION, CMSMEDICAREDATA.HCPCS_DRUG_INDICATOR, CMSMEDICAREDATA.LINE_SRVC_CNT, CMSMEDICAREDATA.BENE_UNIQUE_CNT, 
+CMSMEDICAREDATA.BENE_DAY_SRVC_CNT, CMSMEDICAREDATA.AVERAGE_MEDICARE_ALLOWED_AMT, CMSMEDICAREDATA.STDEV_MEDICARE_ALLOWED_AMT, CMSMEDICAREDATA.AVERAGE_SUBMITTED_CHRG_AMT, 
+CMSMEDICAREDATA.STDEV_SUBMITTED_CHRG_AMT, CMSMEDICAREDATA.AVERAGE_MEDICARE_PAYMENT_AMT, CMSMEDICAREDATA.STDEV_MEDICARE_PAYMENT_AMT, CMSMEDICAREDATA.ZIPCODE5, NPIGEODATA.FIPS_CO
+FROM CMSMEDICAREDATA, NPIGEODATA
+WHERE NPIGEODATA.NPI = CMSMEDICAREDATA.NPI
+AND CMSMEDICAREDATA.NPPES_PROVIDER_COUNTRY = 'US';
+```
+
+
+
+
