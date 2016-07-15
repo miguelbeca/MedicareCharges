@@ -141,6 +141,17 @@ WHERE NPIGEODATA.NPI = CMSMEDICAREDATA.NPI
 AND CMSMEDICAREDATA.NPPES_PROVIDER_COUNTRY = 'US';
 ```
 
+##Data Analysis
 
+Now that our data is in "usable" form, it is time to do some data analysis.
+
+My first thought was to determine which were the most common procedures:
+
+```SQL
+SELECT HCPCS_CODE, HCPCS_DESCRIPTION, COUNT(*)
+FROM CMSMEDICAREFINAL
+GROUP BY HCPCS_CODE, HCPCS_DESCRIPTION
+ORDER BY COUNT(*) DESC
+```
 
 
