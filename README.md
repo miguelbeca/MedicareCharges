@@ -1,6 +1,6 @@
 # Introduction
 
-The purpose of this repository is to both store and demonstrate the work performed as a project submission for "The Data Incubator" Fellowship program. The goal is to visualize Medicare charges data on United States map at county level.
+The purpose of this repository is to both store and demonstrate the work performed towards visualizing Medicare charges data on a United States map at county level, as part of my application for the Data Incubator Fellowship.
 
 This page contains background information on the project, as well as, code samples and final visualizations.
 
@@ -30,7 +30,7 @@ As part of its mandate to "make our healthcare system more transparent, affordab
 
 The focus of this analysis was on the [Physician] (https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier.html) dataset, because it not only focused on the most common medical costs (such as doctor's visits, medical exams, etc.) but it also provided a quite large dataset (around 1.7GB and over 9 million records). The analysis was focused on the [2013] (https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Physician-and-Other-Supplier2013.html) dataset.
 
-CMS provides data in two formats: as a single tab delimited file (to be imported into SAS or other statistical software packages) and as Microsoft Excel files. Given that I am not a SAS User (although it is in my plans to learn in the near future), I decided to utilized the Excel files in order to import them into a local Oracle database instance.
+CMS provides data in two formats: as a single tab delimited file (to be imported into SAS or other statistical software packages) and as Microsoft Excel files. Given that I am not a SAS User (although it is in my plans to learn in the near future), I decided to utilize the Excel files in order to import them into a local Oracle database instance.
 
 As part of the importing process, the Excel files were first converted to the CSV format and imported into Oracle using SQL Developer's data import interface. From experience, SQL developer is able to process CSV files much better than Excel files, as importing large Excel files with SQL Developer is often prone to errors.
 
@@ -62,9 +62,9 @@ Once the dataset with charges information was gathered, the next step consisted 
 
 The CMS dataset contains address information, including ZIP+4 codes. However, the standard practice for map visualizations is to use Federal Information Processing Standards (FIPS) codes. These codes identify geographical areas at various level, such as [State, County and even County Subdivision] (https://www.census.gov/geo/reference/codes/cousub.html) levels. A reference map from the United States Census website is available [here] (https://www2.census.gov/geo/maps/general_ref/us_base/stco2010/USstcou2010_wallmap.pdf).
 
-The first attempts were to map the ZIP code data from the CMS dataset to their respective FIPS codes by using some different means, such as this [County Cross Reference File] (http://wonder.cdc.gov/wonder/sci_data/codes/fips/type_txt/cntyxref.asp) from the Centers for Disease Control (CDC). However, the issue with this sort of mapping is that in some areas, 5-dgiti ZIP codes cross county lines, meaning that a ZIP code could have 2 different FIPS codes. Unable to find any freely available datasets which could map 9-digit ZIP codes to FIPS codes, it was time to purse another route.
+The first attempts were to map the ZIP code data from the CMS dataset to their respective FIPS codes by using some different means, such as this [County Cross Reference File] (http://wonder.cdc.gov/wonder/sci_data/codes/fips/type_txt/cntyxref.asp) from the Centers for Disease Control (CDC). However, the issue with this sort of mapping is that in some areas, 5-dgiti ZIP codes cross county lines, meaning that a ZIP code could have 2 different FIPS codes. Unable to find any freely available datasets which could map 9-digit ZIP codes to FIPS codes, it was time to pursue another route.
 
-Upon further research, a solution was found on the [North American Association of Central Cancer Registries] (http://www.naaccr.org/research/gisresources.aspx) website which has available for public use Geocoded National Provider Identifier data, which contains address and FIPS code data for medical providers.
+Upon further research, a solution was found on the [North American Association of Central Cancer Registries] (http://www.naaccr.org/research/gisresources.aspx) website which has Geocoded National Provider Identifier data available for public use. This dataset contains address and FIPS code data for medical providers.
 
 The dataset for 2015 was downloaded and imported into our database. An example of the NPI and the respective FIPS data is shown below:
 
@@ -83,7 +83,7 @@ The above query returned the following result:
 
 Now we have the task of merging these two datasets together. My first logic approach was to update the CMS dataset by adding a new column to store the FIPS code from the NPI dataset. Although, I knew it would probably take sometime to update millions of records, I did not quite expect that it would take literally 3 days (left the query running over the weekend) to update a column.
 
-Given that this is a common issue in a variety of applications, I sought to find a different approach which would enable me to update the data a lot faster. My search led me to this solution: [How to update millions of records in a table] (https://asktom.oracle.com/pls/asktom/f?p=100:11:0::NO::P11_QUESTION_ID:6407993912330).
+Given that I am not the only in need of updating millions of records in an Oracle table, I sought to find a different approach which would enable me to update the data a lot faster. My search led me to this solution: [How to update millions of records in a table] (https://asktom.oracle.com/pls/asktom/f?p=100:11:0::NO::P11_QUESTION_ID:6407993912330).
 
 The code to create a new table which included the FIPS code from the NPI dataset was:
 
@@ -101,13 +101,13 @@ WHERE NPIGEODATA.NPI = CMSMEDICAREDATA.NPI
 AND CMSMEDICAREDATA.NPPES_PROVIDER_COUNTRY = 'US';
 ```
 
-Now, have the FIPS county code and State codes available in the same data table:
+Now, we have the FIPS county code and State codes available in the same data table:
 
 ![image_5 - merged_data with fips](https://cloud.githubusercontent.com/assets/7533177/16888088/174e8e20-4a9b-11e6-9dec-ababcd3f6090.JPG)
 
-One last step we have to do has to do with making the charges data usable. The data provided by CMS is provided as string values, however, so that we may be able to make computations on the data, we must convert into decimal numbers.
+One last step I had to do was making the charges data usable. The data provided by CMS is provided as string values, however, I had to convert it into decimal numbers so that I would be able to make computations on the data.
 
-So, we run a new query as follows:
+So, I ran a new query as follows:
 
 ```SQL
 CREATE TABLE CMSMEDICAREFINAL AS
@@ -171,7 +171,7 @@ GROUP BY NPPES_PROVIDER_STATE, FIPS_CO
 ORDER BY NPPES_PROVIDER_STATE ASC, FIPS_CO ASC;
 ```
 
-A sample of the data looks as follows:
+A sample of the data looked as follows:
 
 ![image_8 - median flu charges](https://cloud.githubusercontent.com/assets/7533177/16889793/55851bfe-4aa6-11e6-99ec-e2628a43c710.JPG)
 
@@ -202,7 +202,7 @@ And from high to low:
 
 ![image_12 - high_2_low_flu_charges](https://cloud.githubusercontent.com/assets/7533177/16890351/c88ded98-4aaa-11e6-9b92-82c7bdbd8ed6.JPG)
 
-Given that the$0.01 and $489.71 values occur only once in our dataset, it is probably best to remove them to not skew the remaining values. 
+Given that the $0.01 and $489.71 values occur only once in the dataset, it is probably best to remove them in order not to skew the remaining values. 
 
 ```SQL
 DELETE FROM FLUCHARGES 
@@ -212,19 +212,18 @@ DELETE FROM FLUCHARGES
 WHERE MEDIAN_CHARGES = 0.01
 ```
 
-
-Now, our data is ready to be visualized.
+Now, the data is ready to be visualized.
 
 ##Data Visualization
 
-The next step in the whole process was now to finally visualize the data. A cloropeth of the United States with county subdivision was deemed the most appropriate choice.
+The next step in the whole process was to finally visualize the data. A cloropeth of the United States with county subdivision was deemed the most appropriate choice.
 
 My first attempt at making a cloropeth was using the [Bokeh] (http://bokeh.pydata.org/en/latest/) libray for Python. The map looked like this:
 
 
 ![bokeh_plot](https://cloud.githubusercontent.com/assets/7533177/16897950/85ecea48-4b81-11e6-844d-38281418e854.png)
 
-Although it was a good exercise, I was not particularly impressed with the quality of the map. However, the exercise also served to better adjust the color intervals, as some of the very high charge costs were a bit away from the remaining values. We therefore decided also to remove the values above $80.075, in order for the cloropeth to more accurately represent the variation in charges between counties.
+Although it was a good exercise, I was not particularly impressed with the quality of the map. However, the exercise also served to better adjust the color intervals, as some of the very high charge costs were a bit away from the remaining values. I therefore decided also to remove the values above $80.075, in order for the cloropeth to more accurately represent the variation in charges between counties.
 
 An alternative way to do the cloropeth was found [here] (http://flowingdata.com/2009/11/12/how-to-make-a-us-county-thematic-map-using-free-tools/), and it produced a much better quality map:
 
@@ -232,10 +231,14 @@ An alternative way to do the cloropeth was found [here] (http://flowingdata.com/
 
 A quick look at the cloropeth and we can conclude that the average charges across the country are between $20 and $35. We can identify some areas with higher charges in some metro areas (Raleigh-Durham and Charlotte in NC, for example), however we also see some above average charges in what appear to be rural areas. Higher charges in metropolitan areas can be related to higher cost of living, however, in rural areas, higher costs could mean lack of competition due to fewer doctors in some areas. In order to draw some accurate conclusions, it would be necessary to cross-reference this data with cost of living data or map the number of providers per county using the NPI dataset.
 
-Lastly, one is left to wonder why a procedure which on a national average costs around $25, can cost up to $80, more than three times this number in some areas. Higher cost of living and a smaller number of providers can certainly justify higher charges, however, such a large difference seems somewhat extreme...
 
 Lastly, a similar visualization was performed on another common procedure, Collection of Blood Sample. The cloropeth looks as follows:
 
 ![blood_sample_charges_map with legend](https://cloud.githubusercontent.com/assets/7533177/16905853/eae3573c-4c69-11e6-8336-3332f08611b4.png)
 
 
+Again, we find a similar pattern, in that we are able to identify higher charges in both some metropolitan areas and in rural areas, as well. 
+
+## Conclusions
+
+This work served as a good exercise into dealing with a large dataset and being able to visualize it as a cloropeth. As part of a future Data Incubator project, it would serve as a great starting point in order to be enriched with other relevant data, such as cost-of-living data, provider data, additional mapping of metropolitan areas. By cross-referecing additional datasets, it would then be possible to infer some causes which could explain the wide range of charges for common medical procedures in the United States.
