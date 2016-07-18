@@ -228,5 +228,4 @@ Although it was a good exercise, I was not particularly impressed with the quali
 
 An alternative way to do the cloropeth was found [here] (http://flowingdata.com/2009/11/12/how-to-make-a-us-county-thematic-map-using-free-tools/), and it produced a much better quality map:
 
-![flu_charges_map with legend](https://cloud.githubusercontent.com/assets/7533177/16905137/aa943ed6-4c5e-11e6-998f-78e41030aa31.png)
-
+![flu_charges_map with legend](https://cloud.githubusercontent.com/assets/7533177/16905195/973f5662-4c5f-11e6-9644-2f8e070b8cd2.png)
