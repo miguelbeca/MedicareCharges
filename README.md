@@ -236,7 +236,6 @@ Lastly, one is left to wonder why a procedure which on a national average costs 
 
 Lastly, a similar visualization was performed on another common procedure, Collection of Blood Sample. The cloropeth looks as follows:
 
-![blood_sample_charges_map with legend](https://cloud.githubusercontent.com/assets/7533177/16905829/92854ec4-4c69-11e6-8572-e6e76b1218a3.png)
-
+![blood_sample_charges_map with legend](https://cloud.githubusercontent.com/assets/7533177/16905853/eae3573c-4c69-11e6-8336-3332f08611b4.png)
 
 
