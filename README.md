@@ -211,11 +211,22 @@ WHERE MEDIAN_CHARGES = 489.71
 DELETE FROM FLUCHARGES 
 WHERE MEDIAN_CHARGES = 0.01
 ```
-(MOVE)
-Additionally, some of the very high charge costs seem a bit away from the remaining values. We therefore decided also to remove the values above $80.075
+
 
 Now, our data is ready to be visualized.
 
 ##Data Visualization
+
+The next step in the whole process was now to finally visualize the data. A cloropeth of the United States with county subdivision was deemed the most appropriate choice.
+
+My first attempt at making a cloropeth was using the Bokeh (http://bokeh.pydata.org/en/latest/) libray for Python. The map looked like this:
+
+
+![bokeh_plot](https://cloud.githubusercontent.com/assets/7533177/16897950/85ecea48-4b81-11e6-844d-38281418e854.png)
+
+Although it was a good exercise, I was not particularly impressed with the quality of the map. However, the exercise also served to better adjust the color intervals, as some of the very high charge costs were a bit away from the remaining values. We therefore decided also to remove the values above $80.075, in order for the cloropeth to more accurately represent the variation in charges between counties.
+
+An alternative way to do the cloropeth was found [here] (http://flowingdata.com/2009/11/12/how-to-make-a-us-county-thematic-map-using-free-tools/), and it produced a much better quality map:
+
 
 
