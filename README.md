@@ -229,3 +229,11 @@ Although it was a good exercise, I was not particularly impressed with the quali
 An alternative way to do the cloropeth was found [here] (http://flowingdata.com/2009/11/12/how-to-make-a-us-county-thematic-map-using-free-tools/), and it produced a much better quality map:
 
 ![flu_charges_map with legend](https://cloud.githubusercontent.com/assets/7533177/16905195/973f5662-4c5f-11e6-9644-2f8e070b8cd2.png)
+
+A quick look at the cloropeth and we can conclude that the average charges across the country are between $20 and $35. We can identify some areas with higher charges in some metro areas (Raleigh-Durham and Charlotte in NC, for example), however we also see some above average charges in what appear to be rural areas. Higher charges in metropolitan areas can be related to higher cost of living, however, in rural areas, higher costs could mean lack of competition due to fewer doctors in some areas. In order to draw some accurate conclusions, it would be necessary to cross-reference this data with cost of living data or map the number of providers per county using the NPI dataset.
+
+Lastly, one is left to wonder why a procedure which on a national average costs around $25, can cost up to $80, more than three times this number in some areas. Higher cost of living and a smaller number of providers can certainly justify higher charges, however, such a large difference seems somewhat extreme...
+
+Lastly, a similar visualization was performed 
+
+
