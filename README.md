@@ -1,6 +1,6 @@
 # Introduction
 
-The purpose of this repository is to both store and demonstrate the work performed towards visualizing Medicare charges data on a United States map at county level, as part of my application for the Data Incubator Fellowship.
+The purpose of this repository is to both store and demonstrate the work performed towards visualizing Medicare charges data on a United States map at county level.
 
 This page contains background information on the project, as well as, code samples and final visualizations.
 
