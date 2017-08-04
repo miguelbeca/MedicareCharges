@@ -241,4 +241,4 @@ Again, we find a similar pattern, in that we are able to identify higher charges
 
 ## Conclusions
 
-This work served as a good exercise into dealing with a large dataset and being able to visualize it as a cloropeth. As part of a future Data Incubator project, it would serve as a great starting point in order to be enriched with other relevant data, such as cost-of-living data, provider data, additional mapping of metropolitan areas. By cross-referecing additional datasets, it would then be possible to infer some causes which could explain the wide range of charges for common medical procedures in the United States.
+This work served as a good exercise into dealing with a large dataset and being able to visualize it as a cloropeth. As part of a future project, it would serve as a great starting point in order to be enriched with other relevant data, such as cost-of-living data, provider data, additional mapping of metropolitan areas. By cross-referecing additional datasets, it would then be possible to infer some causes which could explain the wide range of charges for common medical procedures in the United States.
