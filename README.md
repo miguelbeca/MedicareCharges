@@ -18,13 +18,13 @@ The following chart illustrates this point:
 
 ![Healthcare spending per capita](http://www.commonwealthfund.org/~/media/images/publications/issue-brief/2015/oct/squires_oecd_exhibit_02.png?la=en)
 
-(Image source: ['U.S. Health Care from a Global Perspective'] (http://www.commonwealthfund.org/publications/issue-briefs/2015/oct/us-health-care-from-a-global-perspective), The Commonwealth Fund)
+(Image source: ['U.S. Health Care from a Global Perspective'](http://www.commonwealthfund.org/publications/issue-briefs/2015/oct/us-health-care-from-a-global-perspective), The Commonwealth Fund)
 
 In light of this, I sought to analyze existing public data related to healthcare costs and charges as a starting point for a possible project on this subject.
 
 # Data Gathering
 
-The [Centers for Medicare & Medicaid Services] (https://www.cms.gov/) (CMS) is the federal agency in charge of administering Medicare, Medicaid, Children’s Health Insurance Program (CHIP), and the Health Insurance Marketplace. The agency is a part of the Department of Health and Human Services (HHS).
+The [Centers for Medicare & Medicaid Services](https://www.cms.gov/) (CMS) is the federal agency in charge of administering Medicare, Medicaid, Children’s Health Insurance Program (CHIP), and the Health Insurance Marketplace. The agency is a part of the Department of Health and Human Services (HHS).
 
 As part of its mandate to "make our healthcare system more transparent, affordable, and accountable" , CMS has begun making several data sets public based on the data that it collects from physicians and healthcare facilities from all over the United States. Amongst the many data sets which are made available by CMS, we can find data related to [Medicare payments] (https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/index.html) in several categories, such as data on Physician charges (i.e. doctor's appointments, medical procedures, etc.), Inpatient charges (i.e.: hospital admissions), Outpatient charges (i.e.: emergency services, outpatient surgery, etc.) and Part D charges (Medicare's drug prescription program).
 
@@ -36,7 +36,7 @@ As part of the importing process, the Excel files were first converted to the CS
 
 A screenshot of the uploaded data in SQL Developer is shown below:
 
-![CMSDATATABLE] (https://cloud.githubusercontent.com/assets/7533177/16855634/68dc720c-49d3-11e6-870f-301bbdff7a8c.JPG)
+![CMSDATATABLE](https://cloud.githubusercontent.com/assets/7533177/16855634/68dc720c-49d3-11e6-870f-301bbdff7a8c.JPG)
 
 A quick check to ensure that we uploaded all the data:
 
@@ -44,7 +44,7 @@ A quick check to ensure that we uploaded all the data:
 SELECT COUNT(*) 
 FROM CMSMEDICAREDATA
 ```
-![CMSMEDICAREDATACOUNT] (https://cloud.githubusercontent.com/assets/7533177/16856161/edb670b6-49d5-11e6-9ae2-aaecba08c587.JPG)
+![CMSMEDICAREDATACOUNT](https://cloud.githubusercontent.com/assets/7533177/16856161/edb670b6-49d5-11e6-9ae2-aaecba08c587.JPG)
 
 Good! The upload process went well and we now have access to almost 9.3 million rows of Medicare Charges data. 
 
@@ -68,7 +68,7 @@ Upon further research, a solution was found on the [North American Association o
 
 The dataset for 2015 was downloaded and imported into our database. An example of the NPI and the respective FIPS data is shown below:
 
-![NPI_GEO] (https://cloud.githubusercontent.com/assets/7533177/16885049/f957ed82-4a89-11e6-837f-a059ea137971.JPG)
+![NPI_GEO](https://cloud.githubusercontent.com/assets/7533177/16885049/f957ed82-4a89-11e6-837f-a059ea137971.JPG)
 
 Now it was time to finally merge the two datasets together. However, before doing so, it would be appropriate to check the number of records in the NPI geocoding dataset:
 
@@ -218,7 +218,7 @@ Now, the data is ready to be visualized.
 
 The next step in the whole process was to finally visualize the data. A cloropeth of the United States with county subdivision was deemed the most appropriate choice.
 
-My first attempt at making a cloropeth was using the [Bokeh] (http://bokeh.pydata.org/en/latest/) libray for Python. The map looked like this:
+My first attempt at making a cloropeth was using the [Bokeh](http://bokeh.pydata.org/en/latest/) libray for Python. The map looked like this:
 
 
 ![bokeh_plot](https://cloud.githubusercontent.com/assets/7533177/16897950/85ecea48-4b81-11e6-844d-38281418e854.png)
